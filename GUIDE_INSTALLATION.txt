@@ -1,0 +1,364 @@
+⚡
+SPEEDSTREAK
+Guide complet — Installation, APK & Play Store
+Lis ce document dans l'ordre, étape par étape.
+
+
+
+🛠
+PARTIE 1
+Outils à installer
+🔥
+PARTIE 2
+Firebase (base de données)
+📱
+PARTIE 3
+Lancer & tester l'app
+🚀
+PARTIE 4
+Générer l'APK ou publier sur Play Store
+
+
+
+
+🛠  PARTIE 1 — Installer les outils (une seule fois)
+Installe ces 4 outils dans l'ordre. Tu n'auras à le faire qu'une seule fois.
+
+1
+Installer Node.js (le moteur du code)
+
+
+ℹ️  Site : https://nodejs.org  →  clique sur le grand bouton vert « LTS » → installe
+
+
+Vérifie en ouvrant un terminal (Invite de commandes) :
+node --version
+# Résultat attendu : v20.x.x  (ou 18.x.x minimum)
+
+
+⚠️  Si tu vois une erreur, redémarre l'ordinateur et réessaie.
+
+
+
+2
+Installer Android Studio (pour simuler un téléphone)
+
+
+ℹ️  Site : https://developer.android.com/studio  →  Télécharge et installe Android Studio
+
+
+Une fois installé, crée un émulateur :
+Ouvre Android Studio → 'More Actions' → 'Virtual Device Manager'
+Clique sur 'Create Device' → choisis 'Pixel 7' → Next
+Sélectionne 'API 34' → Next → Finish
+Clique sur ▶ pour démarrer l'émulateur → un téléphone virtuel apparaît
+
+✅  L'émulateur est prêt quand tu vois l'écran d'accueil du téléphone virtuel.
+
+
+
+3
+Installer Expo CLI et EAS CLI
+
+
+Ouvre un terminal et tape ces commandes une par une :
+npm install -g expo-cli
+npm install -g eas-cli
+
+# Vérification :
+expo --version
+eas --version
+
+
+
+4
+Installer Java JDK 17
+
+
+ℹ️  Site : https://adoptium.net  →  télécharge 'Eclipse Temurin 17 (LTS)' → installe
+
+
+java --version
+# Résultat attendu : openjdk 17.x.x
+
+
+
+
+🔥  PARTIE 2 — Configurer Firebase (base de données & connexion)
+Firebase est le service gratuit de Google qui stocke les scores, les séries et gère la connexion Google.
+
+1
+Créer un compte et un projet Firebase
+
+
+Va sur https://console.firebase.google.com
+Connecte-toi avec ton compte Google
+Clique sur 'Ajouter un projet' → nom : SpeedStreak → Continue
+Désactive Google Analytics → 'Créer le projet' → attends 30 secondes
+
+
+2
+Activer la connexion Google
+
+
+Menu gauche → 'Authentication' → onglet 'Sign-in method'
+Clique sur 'Google' → active l'interrupteur en haut
+Remplis ton email dans 'Adresse d'assistance' → Enregistrer
+
+Récupère ton Web Client ID (obligatoire pour le code) :
+Sur la même page, clique sur la flèche ▼ à côté de 'Google'
+Copie le champ 'ID client Web', exemple :  1234567890-abc.apps.googleusercontent.com
+Sauvegarde-le dans un fichier texte, tu en auras besoin bientôt
+
+
+3
+Créer la base de données Firestore
+
+
+Menu gauche → 'Firestore Database' → 'Créer une base de données'
+Sélectionne 'Mode production' → Suivant
+Région : 'europe-west' → Activer (attends 1 minute)
+
+Copie-colle ces règles de sécurité dans l'onglet 'Règles' de Firestore, puis clique 'Publier' :
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == uid;
+    }
+    match /measures/{uid}/entries/{e} {
+      allow read, write: if request.auth.uid == uid;
+    }
+    match /leaderboard/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == uid;
+    }
+  }
+}
+
+
+
+4
+Ajouter l'app Android et télécharger google-services.json
+
+
+Clique sur ⚙️ (engrenage) → 'Paramètres du projet'
+Scroll vers le bas → clique sur l'icône Android (robot vert)
+Nom du package : com.yourname.speedstreak  →  Pseudo : SpeedStreak  →  Enregistrer
+Clique sur 'Télécharger google-services.json'
+Place ce fichier dans le dossier SpeedStreak_Final/ (là où est App.tsx)
+
+⚠️  Ce fichier est SECRET. Ne le mets jamais sur GitHub ou dans un message.
+
+
+
+5
+Récupérer la configuration Firebase pour le code
+
+
+Dans Paramètres du projet, scroll jusqu'à 'Vos applications'
+Clique sur </> (Web) → nomme-la 'SpeedStreak Web' → Enregistrer l'application
+Copie le bloc firebaseConfig qui apparaît (tu en as besoin à la prochaine étape)
+
+
+
+📱  PARTIE 3 — Configurer le code et lancer l'app
+
+1
+Ouvrir et installer le projet
+
+
+Extrait le fichier SpeedStreak_Final.zip sur ton bureau
+Ouvre un terminal dans le dossier extrait :
+cd ~/Desktop/SpeedStreak_Final
+npm install
+# Ça prend 2-3 minutes, c'est normal
+
+
+
+2
+Remplir les clés Firebase dans le code
+
+
+Ouvre le fichier  src/config/firebase.ts  dans un éditeur (VS Code, Notepad++) :
+// Remplace chaque ligne REMPLACE_PAR... par ta vraie valeur :
+apiKey:            'AIzaSyBxxxxxxxxxxxxxxxxxxxxxxx',
+authDomain:        'speedstreak-xxxxx.firebaseapp.com',
+projectId:         'speedstreak-xxxxx',
+storageBucket:     'speedstreak-xxxxx.appspot.com',
+messagingSenderId: '1234567890',
+appId:             '1:1234567890:web:abcdef123456',
+
+
+Ouvre le fichier  src/hooks/useAuth.ts  et remplace le webClientId :
+// Remplace la ligne REMPLACE_PAR_TON_WEB_CLIENT_ID par l'ID copié depuis Firebase :
+webClientId: '1234567890-abc.apps.googleusercontent.com',
+
+
+
+3
+Créer un compte Expo et se connecter
+
+
+Va sur https://expo.dev → Sign Up → crée un compte gratuit
+Dans le terminal :
+expo login
+# Entre ton email et mot de passe Expo
+
+
+
+4
+Lancer l'app sur l'émulateur
+
+
+Assure-toi que l'émulateur Android est démarré (Android Studio → Virtual Device Manager → ▶)
+
+cd ~/Desktop/SpeedStreak_Final
+npx expo start --android
+# L'app s'ouvre en 2-5 minutes sur l'émulateur
+
+
+✅  Si tu vois l'écran de connexion avec le bouton Google → tout fonctionne ! 🎉
+
+
+
+5
+Tester sur ton vrai téléphone Android
+
+
+Installe l'app 'Expo Go' sur ton téléphone Android (Play Store)
+Lance  npx expo start  dans le terminal (sans --android)
+Scanne le QR code affiché avec l'app Expo Go
+
+ℹ️  Le GPS ne fonctionne que sur un vrai téléphone. Teste la mesure de vitesse dehors, en voiture ou à vélo.
+
+
+
+
+🚀  PARTIE 4 — Générer l'APK ou publier sur le Play Store
+
+✅  OPTION A — APK direct (recommandé pour commencer)
+Gratuit • Rapide • Pas besoin du Play Store • Partage avec tes amis par lien ou fichier
+
+
+Lance la compilation depuis le terminal (ça se passe sur les serveurs Expo, tu peux fermer le terminal) :
+
+cd ~/Desktop/SpeedStreak_Final
+eas build --platform android --profile preview
+
+# Si on te demande 'Generate a new Android Keystore?' → tape : y
+# La compilation prend 10-20 minutes
+# À la fin, tu reçois un lien pour télécharger le fichier .apk
+
+
+Installer l'APK sur ton téléphone :
+Télécharge le fichier .apk sur ton téléphone (ouvre le lien depuis le téléphone)
+Ouvre le fichier → Android demande d'autoriser les 'sources inconnues'
+Va dans Paramètres → Sécurité → 'Installer des applis inconnues' → autorise ton navigateur
+Reviens sur le fichier .apk et confirme l'installation
+
+✅  L'app est installée et fonctionnelle ! Tu peux partager le lien .apk à tes amis pour qu'ils l'installent aussi.
+
+
+
+🏆  OPTION B — Publier sur le Play Store (public)
+25€ unique • Visible par tout le monde • Mises à jour automatiques
+
+
+B1
+Créer un compte développeur Google Play (25€ une seule fois)
+
+
+Va sur https://play.google.com/console
+Connecte-toi → 'Commencer' → remplis tes informations → paie les 25€
+Ton compte est actif sous 24-48h
+
+
+B2
+Créer l'application dans Play Console
+
+
+Dans Play Console → 'Créer une application'
+Langue : Français  •  Nom : SpeedStreak  •  Type : Application  •  Gratuite
+Accepte les déclarations → 'Créer l'application'
+
+
+B3
+Générer le fichier .aab (format Play Store)
+
+
+eas build --platform android --profile production
+
+# Si 'Generate a new Android Keystore?' → tape : y
+# Compilation : 10-20 minutes → tu reçois un fichier .aab
+
+
+⚠️  Garde précieusement les informations du Keystore. Sans lui, tu ne pourras plus mettre l'app à jour.
+
+
+
+B4
+Remplir les informations et soumettre
+
+
+Dans Play Console → SpeedStreak, remplis ces sections obligatoires :
+Présence sur le Play Store : titre, description courte (80 car.), description longue, icône 512x512px, captures d'écran (min. 2)
+Fiche principale : catégorie 'Santé et forme', ton email, politique de confidentialité (crée une page simple sur Notion ou Google Sites)
+Contenu : réponds aux questions (tout public, pas de violence, pas de données sensibles)
+
+Quand toutes les sections sont vertes, va dans Production → Créer une version :
+Importe le fichier .aab
+Notes de version : 'Première version de SpeedStreak'
+Enregistrer → Vérifier → Lancer le déploiement en production
+
+ℹ️  Google examine la première app en 3 à 7 jours. Les mises à jour suivantes sont approuvées en 24h.
+
+
+
+
+📋  Récapitulatif — Checklist complète
+Coche chaque case au fur et à mesure que tu avances :
+
+PARTIE 1 — OUTILS
+☐  Node.js v18+ installé  (node --version fonctionne)
+☐  Android Studio installé avec un émulateur Pixel 7 qui démarre
+☐  expo-cli et eas-cli installés  (expo --version fonctionne)
+☐  Java JDK 17 installé  (java --version fonctionne)
+PARTIE 2 — FIREBASE
+☐  Projet Firebase créé sur console.firebase.google.com
+☐  Authentification Google activée
+☐  Web Client ID copié dans un fichier texte
+☐  Base Firestore créée (région europe-west)
+☐  Règles de sécurité Firestore copiées et publiées
+☐  App Android ajoutée dans Firebase (package : com.yourname.speedstreak)
+☐  google-services.json téléchargé et placé dans SpeedStreak_Final/
+☐  Configuration Firebase copiée (apiKey, projectId, etc.)
+PARTIE 3 — CODE ET TEST
+☐  npm install exécuté sans erreur
+☐  src/config/firebase.ts rempli avec les vraies valeurs Firebase
+☐  src/hooks/useAuth.ts rempli avec le webClientId
+☐  Compte Expo créé sur expo.dev  +  expo login fonctionnel
+☐  npx expo start --android → l'app s'ouvre sur l'émulateur
+☐  La connexion Google fonctionne dans l'app
+☐  Mesure GPS testée sur un vrai téléphone en extérieur
+PARTIE 4 — OPTION A : APK DIRECT
+☐  eas build --platform android --profile preview lancé
+☐  Fichier .apk téléchargé depuis le lien Expo
+☐  APK installé sur le téléphone (sources inconnues autorisées)
+☐  App fonctionnelle et connexion Google OK
+PARTIE 4 — OPTION B : PLAY STORE (optionnel)
+☐  Compte développeur Google créé (25€ payés)
+☐  Application créée dans Play Console
+☐  eas build --platform android --profile production → fichier .aab téléchargé
+☐  Icône 512x512, captures d'écran (2 minimum) prêtes
+☐  Politique de confidentialité créée et URL copiée
+☐  Toutes les sections Play Console en vert
+☐  Fichier .aab uploadé → version déployée en production → en attente Google (3-7 jours)
+
+
+❓  Liens utiles si tu bloques quelque part
+Firebase : https://firebase.google.com/docs
+Expo EAS Build : https://docs.expo.dev/build/introduction
+Play Console : https://support.google.com/googleplay/android-developer

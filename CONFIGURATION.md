@@ -1,6 +1,6 @@
 # ⚙️ Configuration Menu
 
-To get SpeedStreak up and running, you'll need to configure Firebase and Google Sign-In.
+Refer to the [GUIDE_INSTALLATION.txt](file:///home/lestimegauthier/code/projet/trackspeed/GUIDE_INSTALLATION.txt) for a step-by-step walkthrough of the setup process.
 
 ## 🌐 Firebase Setup
 

@@ -39,7 +39,7 @@ SpeedStreak is a high-performance speed tracking mobile application built with *
 
 ## ⚙️ Configuration
 
-Refer to [CONFIGURATION.md](file:///home/lestimegauthier/code/projet/trackspeed/CONFIGURATION.md) for detailed setup of Firebase and environment variables.
+Refer to [GUIDE_INSTALLATION.txt](file:///home/lestimegauthier/code/projet/trackspeed/GUIDE_INSTALLATION.txt) for a step-by-step guide on how to get started.
 
 ## 💡 Future Improvements
 

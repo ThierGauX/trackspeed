@@ -4,6 +4,7 @@ This file tracks future features, bugs to squash, and design enhancements for Sp
 
 ### 🎯 High Priority
 - [ ] **Offline Mode**: Cache measurements and sync when back online.
+- [x] **Installation Guide**: Convert the `.docx` guide to a plain text format for better readability and accessibility.
 - [ ] **Data Export**: Allow users to export their speed history to CSV/JSON.
 - [ ] **Dynamic Theming**: Support for more accent colors or a light mode toggle.
 
