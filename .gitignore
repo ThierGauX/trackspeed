@@ -1,0 +1,29 @@
+# Expo / React Native
+node_modules/
+.expo/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Native builds
+ios/
+android/
+*.apk
+*.aab
+*.ipa
+
+# Firebase / Config
+google-services.json
+GoogleService-Info.plist
+.env*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

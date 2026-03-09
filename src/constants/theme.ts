@@ -1,0 +1,20 @@
+// src/constants/theme.ts
+export const COLORS = {
+  bg:           '#08090e',
+  bgCard:       'rgba(255,255,255,0.04)',
+  bgCardBorder: 'rgba(255,255,255,0.07)',
+  accent:       '#00c3ff',
+  accentDim:    'rgba(0,195,255,0.12)',
+  accentBorder: 'rgba(0,195,255,0.25)',
+  orange:       '#ff6400',
+  orangeDim:    'rgba(255,100,0,0.12)',
+  orangeBorder: 'rgba(255,100,0,0.25)',
+  gold:         '#ffc700',
+  goldDim:      'rgba(255,199,0,0.10)',
+  goldBorder:   'rgba(255,199,0,0.25)',
+  green:        '#00ff88',
+  red:          '#ff4444',
+  text:         '#ffffff',
+  textMuted:    '#4a6a8a',
+  textDim:      '#2a3a4a',
+};
