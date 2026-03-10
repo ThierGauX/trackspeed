@@ -39,8 +39,16 @@ SpeedStreak is a high-performance speed tracking mobile application built with *
 
 ## ⚙️ Configuration
 
-Refer to [GUIDE_INSTALLATION.txt](file:///home/lestimegauthier/code/projet/trackspeed/GUIDE_INSTALLATION.txt) for a step-by-step guide on how to get started.
+Refer to [GUIDE_INSTALLATION.txt](./GUIDE_INSTALLATION.txt) for a step-by-step guide on how to get started.
+**Status**: Firebase configuration is complete, and `google-services.json` is installed.
+
+## 📱 Releases
+
+The production-ready Android APK is available in the `releases/` folder:
+- [SpeedStreak.apk](./releases/SpeedStreak.apk)
+
+You can install this directly on your Android device after authorizing installation from unknown sources.
 
 ## 💡 Future Improvements
 
-Planned features and ideas can be found in [IDEES_AMELIORATION.md](file:///home/lestimegauthier/code/projet/trackspeed/IDEES_AMELIORATION.md).
+Planned features and ideas can be found in [IDEES_AMELIORATION.md](./IDEES_AMELIORATION.md).

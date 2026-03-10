@@ -10,7 +10,7 @@ import { createUserProfile, getUserProfile } from '../services/firestore';
 // Exemple : 1234567890-abcdefgh.apps.googleusercontent.com
 // ─────────────────────────────────────────────────────────────────────────────
 GoogleSignin.configure({
-  webClientId: 'REMPLACE_PAR_TON_WEB_CLIENT_ID.apps.googleusercontent.com',
+  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string,
 });
 
 export function useAuth() {
