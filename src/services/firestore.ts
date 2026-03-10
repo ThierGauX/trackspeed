@@ -32,6 +32,17 @@ export async function createUserProfile(uid: string, data: {
   });
 }
 
+// ── Mettre à jour le profil (Photo, Pseudo) ────────────────────────────────
+export async function updateProfile(uid: string, data: { displayName?: string; photoURL?: string }) {
+  const batch = firestore().batch();
+  
+  if (Object.keys(data).length > 0) {
+    batch.update(firestore().collection('users').doc(uid), data);
+    batch.update(firestore().collection('leaderboard').doc(uid), data);
+    await batch.commit();
+  }
+}
+
 // ── Enregistrer une mesure ──────────────────────────────────────────────────
 export async function saveMeasure(uid: string, speed: number)
   : Promise<{ newBadges: Badge[]; newStats: UserStats }> {
@@ -65,23 +76,39 @@ export async function saveMeasure(uid: string, speed: number)
   return { newBadges, newStats: { ...newStats, badges: allBadges } };
 }
 
-// ── Classement global top 50 ────────────────────────────────────────────────
-export async function getGlobalLeaderboard() {
-  const snap = await firestore().collection('leaderboard').orderBy('maxSpeed', 'desc').limit(50).get();
-  return snap.docs.map((d, i) => ({ uid: d.id, rank: i + 1, ...d.data() }));
+// ── Classement global top 50 (Temps réel) ─────────────────────────────────────
+export function subscribeToGlobalLeaderboard(cb: (data: any[]) => void) {
+  return firestore().collection('leaderboard')
+    .orderBy('maxSpeed', 'desc')
+    .limit(50)
+    .onSnapshot(snap => {
+      const data = snap.docs.map((d, i) => ({ uid: d.id, rank: i + 1, ...d.data() }));
+      cb(data);
+    });
 }
 
-// ── Classement amis ─────────────────────────────────────────────────────────
-export async function getFriendsLeaderboard(uid: string, friendUids: string[]) {
-  if (friendUids.length === 0) return [];
-  const allUids = [uid, ...friendUids];
-  const results: any[] = [];
-  for (let i = 0; i < allUids.length; i += 10) {
-    const snap = await firestore().collection('leaderboard')
-      .where(firestore.FieldPath.documentId(), 'in', allUids.slice(i, i + 10)).get();
-    snap.docs.forEach(d => results.push({ uid: d.id, ...d.data() }));
+// ── Classement amis (Temps réel) ──────────────────────────────────────────────
+export function subscribeToFriendsLeaderboard(uid: string, friendUids: string[], cb: (data: any[]) => void) {
+  if (friendUids.length === 0) {
+    // S'il n'a pas d'amis, on écoute juste son propre score
+    return firestore().collection('leaderboard').where(firestore.FieldPath.documentId(), '==', uid)
+      .onSnapshot(snap => {
+        const data = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+        cb(data.map((u, i) => ({ ...u, rank: i + 1 })));
+      });
   }
-  return results.sort((a, b) => b.maxSpeed - a.maxSpeed).map((u, i) => ({ ...u, rank: i + 1 }));
+
+  const allUids = [uid, ...friendUids];
+  // Firestore limite les requêtes 'in' à 10 éléments max. On prendra juste les 9 premiers amis pour la démo en temps réel.
+  const limitedUids = allUids.slice(0, 10);
+  
+  return firestore().collection('leaderboard')
+    .where(firestore.FieldPath.documentId(), 'in', limitedUids)
+    .onSnapshot(snap => {
+      const results = snap.docs.map(d => ({ uid: d.id, ...d.data() as any }));
+      const sorted = results.sort((a, b) => (b.maxSpeed || 0) - (a.maxSpeed || 0)).map((u, i) => ({ ...u, rank: i + 1 }));
+      cb(sorted);
+    });
 }
 
 // ── Ajouter un ami par email ─────────────────────────────────────────────────

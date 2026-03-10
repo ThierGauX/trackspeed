@@ -1,7 +1,7 @@
 // src/screens/LeaderboardScreen.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Alert, RefreshControl, Image } from 'react-native';
-import { getGlobalLeaderboard, getFriendsLeaderboard, addFriendByEmail } from '../services/firestore';
+import { subscribeToGlobalLeaderboard, subscribeToFriendsLeaderboard, addFriendByEmail } from '../services/firestore';
 import { useAuth } from '../hooks/useAuth';
 import { COLORS } from '../constants/theme';
 
@@ -17,16 +17,29 @@ export default function LeaderboardScreen() {
   const [showAdd, setShowAdd]             = useState(false);
   const [addingFriend, setAddingFriend]   = useState(false);
 
-  const load = useCallback(async () => {
+  const loadGlobal = useCallback(() => {
     if (!user?.uid) return;
-    const [g, f] = await Promise.all([
-      getGlobalLeaderboard(),
-      getFriendsLeaderboard(user.uid, user.profile?.friends ?? []),
-    ]);
-    setGlobal(g); setFriends(f); setRefreshing(false);
+    return subscribeToGlobalLeaderboard(data => {
+      setGlobal(data);
+      setRefreshing(false);
+    });
   }, [user]);
 
-  useEffect(() => { load(); }, [load]);
+  const loadFriends = useCallback(() => {
+    if (!user?.uid) return;
+    return subscribeToFriendsLeaderboard(user.uid, user.profile?.friends ?? [], data => {
+      setFriends(data);
+    });
+  }, [user]);
+
+  useEffect(() => { 
+    const unsubGlobal = loadGlobal();
+    const unsubFriends = loadFriends();
+    return () => {
+      if (typeof unsubGlobal === 'function') unsubGlobal();
+      if (typeof unsubFriends === 'function') unsubFriends();
+    };
+  }, [loadGlobal, loadFriends]);
 
   const handleAddFriend = async () => {
     if (!friendEmail.trim()) return;
@@ -34,7 +47,6 @@ export default function LeaderboardScreen() {
     try {
       await addFriendByEmail(user.uid, friendEmail.trim().toLowerCase());
       setFriendEmail(''); setShowAdd(false);
-      await load();
       Alert.alert('✅ Ami ajouté !');
     } catch (e: any) { Alert.alert('Erreur', e.message); }
     finally { setAddingFriend(false); }
@@ -79,7 +91,7 @@ export default function LeaderboardScreen() {
         keyExtractor={item => item.uid}
         contentContainerStyle={s.list}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor={COLORS.accent} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { /* Real-time syncs automatically */ }} tintColor={COLORS.accent} />}
         ListEmptyComponent={
           <View style={s.empty}>
             <Text style={{ fontSize: 52, marginBottom: 16 }}>{tab === 'friends' ? '👥' : '🏆'}</Text>
