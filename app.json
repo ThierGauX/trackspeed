@@ -34,10 +34,7 @@
       ]
     ],
     "extra": {
-      "eas": {
-        "projectId": "5402f312-cce2-4c32-b697-fb822f6dda3b"
-      }
-    },
-    "owner": "gauthier31"
+      "eas": {}
+    }
   }
 }
