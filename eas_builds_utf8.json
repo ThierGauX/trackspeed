@@ -1,0 +1,49 @@
+﻿[
+  {
+    "id": "61441b40-6696-4dd8-9d91-658cb22d89ea",
+    "status": "ERRORED",
+    "platform": "ANDROID",
+    "error": {
+      "errorCode": "EAS_BUILD_UNKNOWN_GRADLE_ERROR",
+      "message": "Gradle build failed with unknown error. See logs for the \"Run gradlew\" phase for more information."
+    },
+    "artifacts": {},
+    "initiatingActor": {
+      "id": "b4e01a96-503a-463b-ae9c-5ccdca2fad0f",
+      "displayName": "cloudroots.inc"
+    },
+    "logFiles": [
+      "https://job-logs.eascdn.net/production/61441b40-6696-4dd8-9d91-658cb22d89ea/1773563356783-6b1a47a8-8f9f-4605-8217-aba6c92d3870.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260315%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260315T083024Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=323cb096db5b7e6a185b2361017a4c232d77a0da6cb175924b826ab9c824fa34afcb79486f277e7d873e3e04c9ca07b2224782397c8553342325a772baa49b17fb2ee1dccf174945c4ad70ccd21cb725cab7a987449070daf4fd0b14830f5167036370c3c85429da22c65e85fae58a2ea05907b3db52ba666385082521e4f287138a0bdf0ea5ff20ed94eb62361b890a0d5a8109f872271671803d065adfb8b40f59793a97ee46945ae45727d6c09767ef6834bf60a4e4f036a8924b269a691ca8cac1dfbef01cf815f67f470eccde76c073d6219ffbf7ffa79e11044c6c7bbd33c11fac1e94e6533d6db7cdbe0bfdd3be78d1f4155c6931559a28544d5679ba",
+      "https://job-logs.eascdn.net/production/61441b40-6696-4dd8-9d91-658cb22d89ea/1773563360060-158bd841-3dc2-46a2-bbbb-2301d3e43648.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260315%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260315T083024Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=98b2081fb4497715df6047f1c6e25fc890b11fd2df11974e851a9389c50bd4f67f5bb1a5b749b539636b15e3399eaa77ca48dffb69b9a6efe3f15f41800eb429de42f2e20fec02066a918486135fbfac9d750d92e3cc6862dadba2e553d7488289c2a1b517705cb7b390f8960a389b88f077c93a9e46da780bb19ddab03d36f05344cb026207bb802c8c9c924dabe2b27e3e7e448f886c2b8203679c452af4f2cfbd317f8a3469925a126ea4c397e07b4d59a40df6266d224fd434eeebba2dfed25db6ca94615f32e069d9a3b4992f4c6d2732c88bda9fa868590fb096cf263a59dc2d725c6fa6d0b8661a9939e2fc1545522a9352e8fb8dcf2e08b9f8c47fab",
+      "https://job-logs.eascdn.net/production/61441b40-6696-4dd8-9d91-658cb22d89ea/1773563360306-1bf52a1a-42b6-4357-af4f-d63e6d7a42f4.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260315%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260315T083024Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=82620af70c0b64385422cc500be5a9c5df0b500ba0f9f752963425988e71564ded8d096c6781c5dd47853b582e8c1b64224999e175f4ff5b3e0333f3aa509e3c4f9e4d1fb69a1584f33f24524d11c85a7e22dd27c3f0ab7625cdc40757d013bd40f1229c171b1b214b1b63decbcda71474d6f632877e617404d8b989ece4b9cd2be4337b744454c4dcc2f4e47fd0a30bc22e866698e165990493394e5485bcc29b1ee8162ab5fd40434b80d2e5454296ebf8f704208fb14e3681bd516efcc78b124f60a63b35814f830605591ef0d24197d5d6c67ba1e20bdbb3e57c4e79efa9a6393aece43ee6d6674e69ced782519afe525a8ab205e2a7df44a985091fb648",
+      "https://job-logs.eascdn.net/production/61441b40-6696-4dd8-9d91-658cb22d89ea/1773563360493-189c4c87-ebb0-4f64-b017-73e5e27d6f18.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260315%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260315T083024Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=aa104c29674da90bc7eb397c7e1b3c7968ee745bc0ec4fcb47db20122669794d2a7d804f370ba74bb06e47de225faa22004468c4c69884371b9645be5b8837e87a137e88146aba81c09c9ea0ca95ebc90e79aad24451eb883b499f1f9fbdd000846a3bcbb81a50b67bc0db71797d6a3a5d4becfee12d27f2cf3dcdc6346476c87d9315a2b695dbf9a8d4b91bda739691583e351c22350aa63aad8fcef7c8f310842e261916112c8debaafde800cc5260cfa8fa56bc59e417487737e6f5329e7f2e54406e3dc0971401e5eceef6ae325912d4a56eaaf8d8f544b3cba18c53a8a0f998c6afa49ecb8d14107e9f4d72566c8c7d8b126d189b310ce846d94b416e8f"
+    ],
+    "project": {
+      "id": "d936ae6b-395d-4188-97ae-4249a6e34c96",
+      "name": "speedstreak",
+      "slug": "speedstreak",
+      "ownerAccount": {
+        "id": "e48ccca0-d512-49d9-a3c0-a05ec4672824",
+        "name": "cloudroots.inc"
+      }
+    },
+    "distribution": "STORE",
+    "buildProfile": "preview",
+    "sdkVersion": "51.0.0",
+    "appVersion": "1.0.0",
+    "appBuildVersion": "1",
+    "gitCommitHash": "817bc42452efb88c3cae5ff01751206e83f6d9d9",
+    "gitCommitMessage": "Patch et migration vers Supabse",
+    "priority": "NORMAL",
+    "createdAt": "2026-03-15T08:29:16.015Z",
+    "updatedAt": "2026-03-15T08:32:18.817Z",
+    "completedAt": "2026-03-15T08:32:13.188Z",
+    "expirationDate": "2026-04-14T08:29:16.633Z",
+    "isForIosSimulator": false,
+    "metrics": {
+      "buildWaitTime": 669,
+      "buildQueueTime": 32577,
+      "buildDuration": 143649
+    }
+  }
+]
